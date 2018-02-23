@@ -7,6 +7,8 @@ class SaleOrder(models.Model):
     _inherit = 'sale.order'
 
     def _get_delivery_methods(self, cr, uid, order, context=None):
+        # even faster
+        # SELECT id FROM delivery_carrier INNER JOIN delivery_carrier_country_rel ON delivery_carrier_country_rel.carrier_id = delivery_carrier.id AND delivery_carrier_country_rel.country_id = + aux_country_id  INNER JOIN delivery_carrier_state_rel ON delivery_carrier_state_rel.carrier_id=delivery_carrier.id AND delivery_carrier_state_rel.state_id = + aux_state_id  WHERE zip_from >= aux_zip + AND zip_to <= aux_zip
         carrier_obj = self.pool.get('delivery.carrier')
         carrier_ids = carrier_obj.search(
             cr, SUPERUSER_ID, [('website_published', '=', True),
